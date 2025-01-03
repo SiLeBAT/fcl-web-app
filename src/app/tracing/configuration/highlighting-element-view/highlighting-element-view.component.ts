@@ -108,7 +108,7 @@ export class HighlightingElementViewComponent<T extends EditRule>
 
     getOpenState(ruleType: RuleType): boolean {
         const openState = this.openState_[ruleType];
-        return openState === undefined ? false : true;
+        return openState ?? false;
     }
 
     getListItemsOfType(ruleType: RuleType): RuleListItem[] {

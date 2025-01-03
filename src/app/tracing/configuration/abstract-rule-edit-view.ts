@@ -43,7 +43,7 @@ export abstract class AbstractRuleEditViewComponent<T extends EditRule>
     ];
 
     get complexFilterConditions(): ComplexFilterCondition[] {
-        return this.rule !== null ? this.rule.complexFilterConditions : [];
+        return this.rule?.complexFilterConditions ?? [];
     }
 
     get actionButtonDisabled(): boolean {
@@ -55,7 +55,7 @@ export abstract class AbstractRuleEditViewComponent<T extends EditRule>
     }
 
     get isRuleValid(): boolean {
-        return this.rule === null ? false : this.rule.isValid;
+        return this.rule?.isValid ?? false;
     }
 
     abstract get disabledActionToolTip(): string;
@@ -81,7 +81,7 @@ export abstract class AbstractRuleEditViewComponent<T extends EditRule>
     }
 
     get ruleName(): string {
-        return this.rule === null ? "" : this.rule.name;
+        return this.rule?.name ?? "";
     }
 
     ngOnChanges(changes: SimpleChanges): void {

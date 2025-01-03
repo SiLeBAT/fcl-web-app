@@ -30,6 +30,22 @@
     </fcl-edge-color-edit-view>
 </ng-template>
 
+<ng-template let-editRule="editRule" #edgeWidthEditTemplate>
+    <fcl-edge-width-edit-view
+        *ngIf="editRule !== null"
+        [rule]="editRule"
+        [favouriteProperties]="favouriteProperties"
+        [otherProperties]="otherProperties"
+        [propToValuesMap]="propToValuesMap"
+        (addSelection)="onAddSelectionToRuleConditions($event)"
+        (removeSelection)="onRemoveSelectionFromRuleConditions($event)"
+        (applyRule)="onApplyEdit($event)"
+        (cancelEdit)="onCancelEdit(editRule.id)"
+        (okRule)="onOkEdit($event)"
+    >
+    </fcl-edge-width-edit-view>
+</ng-template>
+
 <ng-template let-item="item" #edgeSymbolTemplate>
     <fcl-edge-symbol-view
         *ngIf="item.color !== null"
@@ -58,6 +74,14 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
 
+        <p *ngIf="ruleType === RuleType.EDGE_WIDTH">
+            <mat-icon class="fcl-warning">warning</mat-icon> Delivery Width can
+            only be used for variables defined as numbers that do not contain
+            the unit. Numbers must be on the same unit level (e.g. all in kg OR
+            all in tons). If deliveries are merged in FCL Web, the highest
+            single value of the contained deliveries is used.
+        </p>
+
         <fcl-highlighting-rules-list-view
             class="fcl-rules-list-view-container"
             [showShowInLegendToggleButton]="
@@ -79,9 +103,6 @@
 </ng-template>
 
 <div class="fcl-highlighting-element-container">
-    <fcl-anonymous-button-view tooltip="Anonymize deliveries ... coming soon">
-    </fcl-anonymous-button-view>
-
     <ng-container
         [ngTemplateOutlet]="panelTemplate"
         [ngTemplateOutletContext]="{
@@ -93,20 +114,16 @@
     >
     </ng-container>
 
-    <mat-expansion-panel
-        class="fcl-highlighting-expansion-panels fcl-border-radius-zero"
-        (opened)="widthOpenState = true"
-        (closed)="widthOpenState = false"
+    <ng-container
+        [ngTemplateOutlet]="panelTemplate"
+        [ngTemplateOutletContext]="{
+            ruleType: RuleType.EDGE_WIDTH,
+            title: 'Delivery Width',
+            editTemplate: edgeWidthEditTemplate,
+            showInLegendTB: false,
+        }"
     >
-        <mat-expansion-panel-header>
-            <mat-panel-title class="fcl-font-size-08">
-                Delivery Width... click to
-                {{ widthOpenState ? "close" : "open" }}
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        Delivery Width Configurations ... coming soon
-    </mat-expansion-panel>
+    </ng-container>
 
     <ng-container
         [ngTemplateOutlet]="panelTemplate"

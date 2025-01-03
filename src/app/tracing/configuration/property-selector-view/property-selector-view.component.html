@@ -10,7 +10,7 @@
         [value]="value"
         (valueChange)="onValueChange($event)"
         [disabled]="disabled"
-        placeholder="property"
+        [placeholder]="placeholder ?? 'property'"
     >
         <ng-container *ngFor="let property of favouriteProperties">
             <mat-option

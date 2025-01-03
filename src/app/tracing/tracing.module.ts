@@ -87,6 +87,7 @@ import { EmptyGraphComponent } from "./graph/components/empty-state/graph-empty.
 import { LoadingGraphComponent } from "./graph/components/graph-loading/graph-loading.component";
 import { DialogMovableComponent } from "./dialog/dialog-movable/dialog-movable.component";
 import { DialogImportWarningsComponent } from "./dialog/dialog-import-warnings/dialog-import-warnings.component";
+import { EdgeWidthEditViewComponent } from "./configuration/edge-width-edit-view/edge-width-edit-view.component";
 
 @NgModule({
     imports: [
@@ -171,6 +172,7 @@ import { DialogImportWarningsComponent } from "./dialog/dialog-import-warnings/d
         HighlightingRulesListViewComponent,
         HighlightingDeliveryViewComponent,
         EdgeColorEditViewComponent,
+        EdgeWidthEditViewComponent,
         TextFilterHeaderCellViewComponent,
         VisibilityFilterHeaderCellViewComponent,
         SymbolHeaderCellViewComponent,

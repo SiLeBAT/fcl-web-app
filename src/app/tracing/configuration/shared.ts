@@ -10,6 +10,7 @@ import { PropToValuesMap } from "./configuration.model";
 import {
     ColorAndShapeEditRule,
     ColorEditRule,
+    EdgeWidthEditRule,
     InvEditRule,
     LabelEditRule,
     RowFilter,
@@ -28,7 +29,9 @@ export type EditRuleOfType<T extends RuleType> = T extends RuleType.LABEL
         ? ColorEditRule
         : T extends RuleType.INVISIBILITY
           ? InvEditRule
-          : never;
+          : T extends RuleType.EDGE_WIDTH
+            ? EdgeWidthEditRule
+            : never;
 
 export function filterTableRows(
     rows: TableRow[],

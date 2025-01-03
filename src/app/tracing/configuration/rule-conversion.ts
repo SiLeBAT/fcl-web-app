@@ -5,12 +5,15 @@ import {
     LinePatternType,
     StationHighlightingRule,
 } from "../data.model";
+import { InternalError } from "../io/io-errors";
+import { isEditRuleValid } from "./edit-rule-validaton";
 import {
     ColorAndShapeEditRule,
     ColorEditRule,
     ComposedLabelEditRule,
     DeliveryEditRule,
     DeliveryRuleType,
+    EdgeWidthEditRule,
     EditRule,
     EditRuleCore,
     InvEditRule,
@@ -88,6 +91,26 @@ function convertLabelEditRuleToDeliveryHRule(
     return convertHRuleToDeliveryHRule(convertLabelEditRuleToHRule(editRule));
 }
 
+function convertEdgeWidthEditRuleToHighlitingRule(
+    editRule: EdgeWidthEditRule,
+): DeliveryHighlightingRule {
+    if (!isEditRuleValid(editRule)) {
+        throw new InternalError(
+            "Attempting to save rule failed. Rule is Invalid.",
+        );
+    }
+    return {
+        ...convertEditRuleToHRule(editRule),
+        linePattern: null,
+        adjustThickness: true,
+        valueCondition: {
+            propertyName: editRule.propertyName!,
+            useZeroAsMinimum: editRule.minimumZero,
+            valueType: editRule.scale!,
+        },
+    };
+}
+
 function convertInvEditRuleToHRule(editRule: InvEditRule): HighlightingRule {
     return {
         ...convertEditRuleToHRule(editRule),
@@ -162,6 +185,8 @@ export function convertDeliveryEditRuleToHRule(
             );
         case RuleType.INVISIBILITY:
             return convertInvEditRuleToDeliveryHRule(editRule as InvEditRule);
+        case RuleType.EDGE_WIDTH:
+            return convertEdgeWidthEditRuleToHighlitingRule(editRule);
         default:
             throw new Error("Rule not convertable.");
     }
@@ -233,6 +258,18 @@ function convertHRuleToInvEditRule(rule: HighlightingRule): InvEditRule {
     return this.convertHRuleToEditRule(rule);
 }
 
+function convertHighlitingRuleToEdgeWidthEditRule(
+    rule: HighlightingRule,
+): EdgeWidthEditRule {
+    return {
+        ...convertHRuleToEditRuleCore(rule),
+        type: RuleType.EDGE_WIDTH,
+        propertyName: rule.valueCondition?.propertyName ?? null,
+        scale: rule.valueCondition?.valueType ?? null,
+        minimumZero: rule.valueCondition?.useZeroAsMinimum ?? false,
+    };
+}
+
 export function convertStationHRuleToEditRule(
     rule: StationHighlightingRule,
 ): StationEditRule {
@@ -260,6 +297,8 @@ export function convertDeliveryHRuleToEditRule(
         return convertHRuleToLabelEditRule(rule);
     } else if (rule.invisible) {
         return convertHRuleToInvEditRule(rule);
+    } else if (rule.adjustThickness) {
+        return convertHighlitingRuleToEdgeWidthEditRule(rule);
     } else {
         throw new Error(
             "Delivery Highlighting Rule cannot be converted to EditRule.",
@@ -286,6 +325,8 @@ export function getDeliveryRuleType(
         return RuleType.COLOR;
     } else if (rule.labelProperty) {
         return RuleType.LABEL;
+    } else if (rule.adjustThickness) {
+        return RuleType.EDGE_WIDTH;
     } else {
         return null;
     }

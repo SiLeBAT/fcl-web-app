@@ -1,0 +1,105 @@
+<div class="fcl-edit-rule">
+    <fcl-rule-name-view
+        class="fcl-edit-rule-name-field"
+        [ruleName]="ruleName"
+        (ruleNameChange)="onRuleNameChange($event)"
+    >
+    </fcl-rule-name-view>
+
+    <div class="fcl-rule-container">
+        <fcl-property-selector-view
+            class="fcl-property-selector fcl-dropdown"
+            [value]="propertyName"
+            placeholder="Select property"
+            (valueChange)="onPropertyChange($event)"
+            [favouriteProperties]="favouriteProperties"
+            [otherProperties]="otherProperties"
+        ></fcl-property-selector-view>
+
+        <mat-form-field
+            class="fcl-scale-selector fcl-dropdown"
+            appearance="outline"
+            color="primary"
+        >
+            <mat-select
+                [value]="scale"
+                (valueChange)="onScaleChange($event)"
+                placeholder="Select value type"
+            >
+                <mat-option
+                    class="fcl-filter-select-option"
+                    [value]="valueType.VALUE"
+                >
+                    Linear
+                </mat-option>
+                <mat-option
+                    class="fcl-filter-select-option"
+                    [value]="valueType.LOG_VALUE"
+                >
+                    Log
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="fcl-rule-container">
+        <mat-checkbox
+            class="fcl-edit-rule-zero-minimum fcl-checkbox-wo-ripple"
+            [checked]="minimumZero"
+            (change)="onMinimumZeroChange($event.checked)"
+        >
+            Zero as minimum
+        </mat-checkbox>
+    </div>
+
+    <div class="fcl-edit-rule-action-button-container">
+        <div
+            class="fcl-edit-rule-action-button-wrapper"
+            [matTooltip]="applyTooltip"
+        >
+            <button
+                mat-stroked-button
+                class="fcl-edit-rule-action-button"
+                matTooltipPosition="above"
+                color="primary"
+                (click)="onApplyRule()"
+                [disabled]="actionButtonDisabled"
+            >
+                <mat-icon>done</mat-icon>
+                Apply
+            </button>
+        </div>
+
+        <div
+            class="fcl-edit-rule-action-button-wrapper"
+            matTooltip="Close dialogue"
+        >
+            <button
+                mat-stroked-button
+                class="fcl-edit-rule-action-button"
+                matTooltipPosition="above"
+                color="primary"
+                (click)="onCancelRule()"
+            >
+                <mat-icon>clear</mat-icon>
+                Cancel
+            </button>
+        </div>
+
+        <div
+            class="fcl-edit-rule-action-button-wrapper"
+            [matTooltip]="okTooltip"
+        >
+            <button
+                mat-stroked-button
+                class="fcl-edit-rule-action-button"
+                matTooltipPosition="above"
+                color="primary"
+                (click)="onOkRule()"
+                [disabled]="actionButtonDisabled"
+            >
+                <mat-icon>done</mat-icon>
+                OK
+            </button>
+        </div>
+    </div>
+</div>

@@ -19,6 +19,7 @@ import { Property } from "@app/tracing/data.model";
 })
 export class PropertySelectorViewComponent implements OnChanges {
     @Input() label: string | null = null;
+    @Input() placeholder: string | null = null;
     @Input() disabled = false;
     @Input() value: string | null = null;
     @Input() favouriteProperties: Property[];

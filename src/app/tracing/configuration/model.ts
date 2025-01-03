@@ -5,6 +5,7 @@ import {
     NodeShapeType,
     TableColumn,
     TableRow,
+    ValueType,
 } from "../data.model";
 import { ComplexFilterCondition, PropToValuesMap } from "./configuration.model";
 
@@ -59,13 +60,23 @@ export type EditRule =
     | ColorAndShapeEditRule
     | ColorEditRule
     | LabelEditRule
-    | InvEditRule;
+    | InvEditRule
+    | EdgeWidthEditRule;
 
 export enum RuleType {
     INVISIBILITY,
     LABEL,
     COLOR_AND_SHAPE,
     COLOR,
+    EDGE_WIDTH,
+}
+
+export interface EdgeWidthEditRule extends EditRuleCore {
+    type: RuleType.EDGE_WIDTH;
+    minimumZero: boolean;
+    maximum?: number;
+    scale: ValueType | null;
+    propertyName: string | null;
 }
 
 export interface ColorAndShapeEditRule extends EditRuleCore {
@@ -103,9 +114,16 @@ export type StationEditRule =
     | ColorAndShapeEditRule
     | LabelEditRule
     | InvEditRule;
-export type DeliveryEditRule = LabelEditRule | InvEditRule | ColorEditRule;
+export type DeliveryEditRule =
+    | LabelEditRule
+    | InvEditRule
+    | ColorEditRule
+    | EdgeWidthEditRule;
 
-export type DeliveryRuleType = RuleType.LABEL | RuleType.COLOR;
+export type DeliveryRuleType =
+    | RuleType.LABEL
+    | RuleType.COLOR
+    | RuleType.EDGE_WIDTH;
 export type StationRuleType = RuleType.LABEL | RuleType.COLOR_AND_SHAPE;
 
 export type RuleId = string;

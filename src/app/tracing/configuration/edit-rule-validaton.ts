@@ -1,8 +1,10 @@
+import { isNotEmpty, isNotNullish } from "../util/non-ui-utils";
 import { ComplexFilterCondition } from "./configuration.model";
 import {
     ColorAndShapeEditRule,
     ColorEditRule,
     ComposedLabelEditRule,
+    EdgeWidthEditRule,
     EditRule,
     InvEditRule,
     RuleType,
@@ -50,6 +52,14 @@ function isColorEditRuleValid(editRule: ColorEditRule): boolean {
     );
 }
 
+function isEdgeWidthEditRuleValid(editRule: EdgeWidthEditRule): boolean {
+    return (
+        isGenericEditRuleValid(editRule) &&
+        isNotEmpty(editRule.propertyName) &&
+        isNotNullish(editRule.scale)
+    );
+}
+
 function isColorAndShapeEditRuleValid(
     editRule: ColorAndShapeEditRule,
 ): boolean {
@@ -93,6 +103,8 @@ export function isEditRuleValid(editRule: EditRule): boolean {
                 : isComposedLabelEditRuleValid(editRule);
         case RuleType.INVISIBILITY:
             return isInvEditRuleValid(editRule);
+        case RuleType.EDGE_WIDTH:
+            return isEdgeWidthEditRuleValid(editRule);
         default:
             return false;
     }

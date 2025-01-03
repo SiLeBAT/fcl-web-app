@@ -1,0 +1,55 @@
+@use "../../../../assets/sass/base" as fcl;
+
+.fcl-edit-rule {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    padding-top: 1rem;
+    border: 1px solid rgb(0 0 0 / 0.12);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.fcl-rule-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+}
+
+.fcl-scale-selector,
+.fcl-property-selector,
+.fcl-maximum-selector {
+    width: 50%;
+}
+
+.fcl-dropdown {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.fcl-edit-rule-name-and-symbol-fields {
+    display: grid;
+    grid-template-areas: "rulename symbol rest";
+    grid-template-columns: 50% 24px calc(50% - 24px);
+    padding-bottom: 0.5rem;
+}
+
+.fcl-edit-rule-name-field {
+    grid-area: rulename;
+    margin-right: 1ch;
+}
+
+.fcl-edit-rule-action-button {
+    font-size: inherit;
+}
+
+.fcl-edit-rule-action-button:hover:enabled {
+    background-color: fcl.$fcl-accent-300;
+    color: rgb(255 255 255 / 0.9);
+}
+
+.fcl-edit-rule-action-button-container {
+    display: flex;
+    flex-wrap: wrap;
+}
